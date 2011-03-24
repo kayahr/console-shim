@@ -1,1 +1,1 @@
-Browser console compatibility shims for legacy JavaScript engines.
+Browser console compatibility shim for legacy JavaScript engines.

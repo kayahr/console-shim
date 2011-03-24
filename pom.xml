@@ -15,7 +15,7 @@
   <name>Console shim</name>
   <url>https://github.com/kayahr/console-shim</url>
   <description>
-    Browser console compatibility shims for legacy JavaScript engines.
+    Browser console compatibility shim for legacy JavaScript engines.
   </description>
   <inceptionYear>2011</inceptionYear>
 
