@@ -1,0 +1,3 @@
+* Write a custom log message processor for native IE and Firefox 4 console
+  because these browsers don't support format strings and have different
+  behaviours when multiple parameters are used.
