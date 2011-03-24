@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project name="console-shim" default="compile">
+<project name="console-shim" default="package">
 
   <taskdef name="jscomp"
            classname="com.google.javascript.jscomp.ant.CompileTask"
@@ -10,14 +10,35 @@
     <jscomp compilationLevel="advanced"
             warning="verbose"
             debug="false"
-            output="console-min.js">
+            output="console-shim-min.js">
       <sources dir=".">
-        <file name="console.js" />
+        <file name="console-shim.js" />
       </sources>
       <externs dir="externs">
         <file name="log4javascript.js" />
       </externs>
     </jscomp>
+  </target>
+  
+  <target name="package" depends="compile">
+    <jar destfile="console-shim.jar">
+      <mappedresources>
+        <fileset dir=".">
+          <include name="console-shim.js" />
+        </fileset>
+        <globmapper from="*" to="script-sources/*" />
+      </mappedresources>
+      <mappedresources>
+        <fileset dir=".">
+          <include name="console-shim-min.js" />
+        </fileset>
+        <globmapper from="*-min.js" to="scripts/*.js" />
+      </mappedresources>
+    </jar>
+  </target>
+  
+  <target name="clean">
+    <delete file="console-shim.jar" />
   </target>
 
 </project>
