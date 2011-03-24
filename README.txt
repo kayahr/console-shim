@@ -8,7 +8,7 @@ facility) then the emulated console is linked to this logging facility.  If
 no alternative logging facility is present then a dummy console is emulated
 which silently ignores all logging attempts.
 
-Here is a list of some major browsers, their problems with standard console
+Here is a list of some major browsers, their problems with native console
 support and the solution console-shim uses to fix the problems:
 
 Firefox 3 (without Firebug) and Internet Explorer 6-7:
