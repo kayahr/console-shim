@@ -4,7 +4,7 @@
   <parent>
     <artifactId>maven-javascript</artifactId>
     <groupId>de.ailis.maven</groupId>
-    <version>7</version>
+    <version>8</version>
   </parent> 
 
   <groupId>com.github.kayahr.console-shim</groupId>
@@ -72,5 +72,13 @@
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
   </repositories>  
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.log4javascript</groupId>
+      <artifactId>log4javascript</artifactId>
+      <version>1.4.1-5</version>
+    </dependency>
+  </dependencies>
 
 </project>

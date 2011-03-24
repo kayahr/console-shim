@@ -4,6 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Console shim demo</title>
+    <?php $resolver->includeScript("log4javascript.js"); ?>
     <?php $resolver->includeScript("console.js"); ?>
     <script type="text/javascript">
     /* <![CTYPE[ */
