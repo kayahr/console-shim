@@ -77,4 +77,24 @@ if (!console["error"])
     console.error = console.log;
 }
 
+if (!console["group"]) {
+    console.group = function() {};
+}
+
+if (!console["groupEnd"]) {
+    console.groupEnd = function() {};
+}
+
+if (!console["trace"]) {
+    console.trace = function() {};
+}
+
+if (!console["profile"]) {
+    console.profile = function() {};
+}
+
+if (!console["profileEnd"]) {
+    console.profileEnd = function() {};
+}
+
 })();
