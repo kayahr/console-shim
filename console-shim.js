@@ -85,4 +85,16 @@ if (!console["groupEnd"]) {
     console.groupEnd = function() {};
 }
 
+if (!console["trace"]) {
+    console.trace = function() {};
+}
+
+if (!console["profile"]) {
+    console.profile = function() {};
+}
+
+if (!console["profileEnd"]) {
+    console.profileEnd = function() {};
+}
+
 })();
