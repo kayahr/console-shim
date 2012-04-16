@@ -77,4 +77,12 @@ if (!console["error"])
     console.error = console.log;
 }
 
+if (!console["group"]) {
+    console.group = function() {};
+}
+
+if (!console["groupEnd"]) {
+    console.groupEnd = function() {};
+}
+
 })();
