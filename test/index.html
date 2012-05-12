@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console shim demo</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
+    <script type="text/javascript">
+    
+    // Disable the native console and implement a small text
+    // implementation  
+    console = {};
+     
+    var logs = [];
+      
+    console.log = function() {
+        logs.push(Array.prototype.slice.call(arguments));
+    };
+    
+    </script>
+    <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
+    <script type="text/javascript" src="../console-shim-min.js"></script>
+    <script type="text/javascript">
+  
+    $(function() {
+
+    module("console.log");
+    
+    test("Only message", function() {
+        console.log("abc");
+        var log = logs.pop();
+        ok(!!log, "Log message recorded.");
+        equal(log.length, 1, "Only one parameter logged.");
+        equal(log[0], "abc", "Message must match.");
+    });
+   
+    test("Message with parameters", function() {
+        console.log("def", "ghi", 3);
+        var log = logs.pop();
+        ok(!!log, "Log message recorded.");
+        equal(log.length, 3, "Three parameters logged.");
+        equal(log[0], "def", "Message must match.");
+        equal(log[1], "ghi", "First parameter must match.");
+        equal(log[2], 3, "Second parameter must match.");
+    });
+ 
+ 
+    module("console.debug");
+      
+    test("Message with parameter", function() {
+        console.debug("foo", "bar");
+        var log = logs.pop();
+        ok(!!log, "Log message recorded.");
+        equal(log.length, 2, "Two parameters logged.");
+        equal(log[0], "foo", "Message must match.");
+        equal(log[1], "bar", "Parameter must match.");
+    });
+   
+
+    module("console.info");
+      
+    test("Message with parameter", function() {
+        console.info("foo", "bar");
+        var log = logs.pop();
+        ok(!!log, "Log message recorded.");
+        equal(log.length, 2, "Two parameters logged.");
+        equal(log[0], "foo", "Message must match.");
+        equal(log[1], "bar", "Parameter must match.");
+    });
+   
+   
+    module("console.warn");
+      
+    test("Message with parameter", function() {
+        console.warn("foo", "bar");
+        var log = logs.pop();
+        ok(!!log, "Log message recorded.");
+        equal(log.length, 2, "Two parameters logged.");
+        equal(log[0], "foo", "Message must match.");
+        equal(log[1], "bar", "Parameter must match.");
+    });
+   
+   
+    module("console.error");
+      
+    test("Message with parameter", function() {
+        console.error("foo", "bar");
+        var log = logs.pop();
+        ok(!!log, "Log message recorded.");
+        equal(log.length, 2, "Two parameters logged.");
+        equal(log[0], "foo", "Message must match.");
+        equal(log[1], "bar", "Parameter must match.");
+    });
+   
+   
+    module("console.dir");
+      
+    test("Ignored", function() {
+        console.dir(window);
+        ok(true, "Must not fail");
+    });
+   
+   
+    module("console.group");
+      
+    test("Ignored", function() {
+        console.group("foo");
+        ok(true, "Must not fail");
+    });
+   
+
+    module("console.groupCollapsed");
+      
+    test("Ignored", function() {
+        console.groupCollapsed("foo");
+        ok(true, "Must not fail");
+    });
+   
+
+    module("console.groupEnd");
+      
+    test("Ignored", function() {
+        console.groupEnd();
+        ok(true, "Must not fail");
+    });
+   
+
+    module("console.trace");
+      
+    test("Ignored", function() {
+        console.trace();
+        ok(true, "Must not fail");
+    });
+   
+
+    module("console.profile");
+      
+    test("Ignored", function() {
+        console.profile();
+        ok(true, "Must not fail");
+    });
+
+
+    module("console.profileEnd");
+      
+    test("Ignored", function() {
+        console.profileEnd();
+        ok(true, "Must not fail");
+    });
+   
+    });  
+    
+    </script>
+  </head>
+  <body>
+    <h1 id="qunit-header">console-shim test</h1>
+    <h2 id="qunit-banner"></h2>
+    <div id="qunit-testrunner-toolbar"></div>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <div id="qunit-fixture">test markup, will be hidden</div>    
+  </body>
+</html>

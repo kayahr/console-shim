@@ -73,28 +73,17 @@ if (!console["warn"])
 // Implement console.debug if missing
 if (!console["error"])
 {
-    // Simply link it to the log method.
     console.error = console.log;
 }
 
-if (!console["group"]) {
-    console.group = function() {};
-}
-
-if (!console["groupEnd"]) {
-    console.groupEnd = function() {};
-}
-
-if (!console["trace"]) {
-    console.trace = function() {};
-}
-
-if (!console["profile"]) {
-    console.profile = function() {};
-}
-
-if (!console["profileEnd"]) {
-    console.profileEnd = function() {};
-}
+// Dummy implementations of other console features to prevent error messages
+// in browsers not supporting it.
+if (!console["dir"]) console["dir"] = function() {};
+if (!console["group"]) console["group"] = function() {};
+if (!console["groupCollapsed"]) console["groupCollapsed"] = function() {};
+if (!console["groupEnd"]) console["groupEnd"] = function() {};
+if (!console["trace"]) console["trace"] = function() {};
+if (!console["profile"]) console["profile"] = function() {};
+if (!console["profileEnd"]) console["profileEnd"] = function() {};
 
 })();
