@@ -40,7 +40,7 @@ feature is not supported by the browser.
 
 
 License
-=======
+-------
 
 Copyright (c) 2011-2012 Klaus Reimer <k@ailis.de>
 
