@@ -75,6 +75,7 @@ if (!console["assert"])
 
 // Dummy implementations of other console features to prevent error messages
 // in browsers not supporting it.
+if (!console["clear"]) console["clear"] = function() {};
 if (!console["dir"]) console["dir"] = function() {};
 if (!console["group"]) console["group"] = function() {};
 if (!console["groupCollapsed"]) console["groupCollapsed"] = function() {};

@@ -110,6 +110,14 @@
     });
 
    
+    module("console.clear");
+      
+    test("Ignored", function() {
+        console.clear();
+        ok(true, "Must not fail");
+    });
+   
+   
     module("console.dir");
       
     test("Ignored", function() {
