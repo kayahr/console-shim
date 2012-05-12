@@ -33,10 +33,19 @@ feature is not supported by the browser.
 * **error**: Linked to log4javascript if possible or to the log method.
 * **assert**: Full implementation which logs an error message when the assert 
   expression is false.
-* **dir**: Empty dummy function.
-* **group**: Empty dummy function.
-* **groupEnd**: Empty dummy function.
+* **clear**: Empty dummy function.
+* **dir**: Linked to log message. Hopefully the browser or external logging
+  facility knows how to dump objects.
+* **dirxml**: Linked to log message. Hopefully the browser or external logging
+  facility knows how to dump DOM nodes.
 * **trace**: Empty dummy function.
+* **group**: Empty dummy function.
+* **groupCollapsed**: Empty dummy function.
+* **groupEnd**: Empty dummy function.
+* **time**: Full implementation which records the current time under the
+  specified name.
+* **timeEnd**: Full implementation which calculated the difference between
+  the current time and the recorded start time and logs it.
 * **profile**: Empty dummy function.
 * **profileEnd**: Empty dummy function.
 

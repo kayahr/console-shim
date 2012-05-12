@@ -19,7 +19,7 @@
     
     </script>
     <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-    <script type="text/javascript" src="../console-shim.js"></script>
+    <script type="text/javascript" src="../console-shim-min.js"></script>
     <script type="text/javascript">
   
     $(function() {
@@ -139,6 +139,14 @@
         strictEqual(log[0], window, "Parameter must match.");
     });
    
+
+    module("console.trace");
+      
+    test("Ignored", function() {
+        console.trace();
+        ok(true, "Must not fail");
+    });
+   
    
     module("console.group");
       
@@ -162,13 +170,42 @@
         console.groupEnd();
         ok(true, "Must not fail");
     });
-   
 
-    module("console.trace");
-      
-    test("Ignored", function() {
-        console.trace();
-        ok(true, "Must not fail");
+
+    module("console.timeAndTimeEnd");
+    
+    test("Recording single time", function() {
+        var start = new Date().getTime();
+        console.time("timer");
+        while (new Date().getTime() - start < 50) {};
+        console.timeEnd("timer");
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 1, "One parameters must be logged.");
+        ok(log[0].match(/^timer: [0-9]+ms$/), "Time must be logged.");
+    });
+   
+    test("Recording two times", function() {
+        var start = new Date().getTime();
+        console.time("timer");
+        while (new Date().getTime() - start < 50) {};
+        console.time("timer2");
+        while (new Date().getTime() - start < 50) {};
+        console.timeEnd("timer");
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 1, "One parameters must be logged.");
+        ok(log[0].match(/^timer: [0-9]+ms$/), "Time must be logged.");
+        console.timeEnd("timer2");
+        var log = logs.pop();
+        ok(!!log, "Another log message must be recorded.");
+        equal(log.length, 1, "One parameters must be logged.");
+        ok(log[0].match(/^timer2: [0-9]+ms$/), "Time must be logged.");
+    });
+   
+    test("Ending unknown timer", function() {
+        console.timeEnd("unknown");
+        equal(logs.length, 0, "No message must be logged.");
     });
    
 

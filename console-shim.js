@@ -48,7 +48,7 @@ if (!console["log"])
     // Use empty dummy implementation to ignore logging
     else
     {
-        console.log = function() {};
+        console.log = (/** @param {...*} args */ function(args) {});
     }
 }
 
@@ -73,18 +73,39 @@ if (!console["assert"])
     };
 }
 
-// Linking console.dir and console.dirxml to the console.log method in the
-// hope that the browser already logs objects and DOM nodes as a tree.
+// Linking console.dir and console.dirxml to the console.log method if
+// missing. Hopefully the browser already logs objects and DOM nodes as a
+// tree.
 if (!console["dir"]) console["dir"] = console.log;
 if (!console["dirxml"]) console["dirxml"] = console.log;
+
+// Implement console.time and console.timeEnd if one of them is missing
+if (!console["time"] || !console["timeEnd"])
+{
+    var timers = {};
+    console["time"] = function(id)
+    {
+        timers[id] = new Date().getTime();
+    };
+    console["timeEnd"] = function(id)
+    {
+        var start = timers[id];
+        if (start)
+        {
+            console.log(id + ": " + (new Date().getTime() - start) + "ms");
+            delete timers[id];
+        }
+    };
+    
+}
 
 // Dummy implementations of other console features to prevent error messages
 // in browsers not supporting it.
 if (!console["clear"]) console["clear"] = function() {};
+if (!console["trace"]) console["trace"] = function() {};
 if (!console["group"]) console["group"] = function() {};
 if (!console["groupCollapsed"]) console["groupCollapsed"] = function() {};
 if (!console["groupEnd"]) console["groupEnd"] = function() {};
-if (!console["trace"]) console["trace"] = function() {};
 if (!console["profile"]) console["profile"] = function() {};
 if (!console["profileEnd"]) console["profileEnd"] = function() {};
 
