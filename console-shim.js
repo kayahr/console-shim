@@ -79,6 +79,10 @@ if (!console["assert"])
 if (!console["dir"]) console["dir"] = console.log;
 if (!console["dirxml"]) console["dirxml"] = console.log;
 
+// Linking console.exception to console.error. This is not the same but
+// at least some error message is displayed.
+if (!console["exception"]) console["exception"] = console.error;
+
 // Implement console.time and console.timeEnd if one of them is missing
 if (!console["time"] || !console["timeEnd"])
 {
@@ -96,7 +100,40 @@ if (!console["time"] || !console["timeEnd"])
             delete timers[id];
         }
     };
-    
+}
+
+// Implement console.table if missing
+if (!console["table"])
+{
+    console["table"] = function(data, columns)
+    {
+        var i, iMax, row, j, jMax, k;
+        
+        // Do nothing if data has wrong type or no data was specified
+        if (!data || !(data instanceof Array) || !data.length) return;
+        
+        // Auto-calculate columns array if not set
+        if (!columns || !(columns instanceof Array))
+        {
+            columns = [];
+            for (k in data[0])
+            {
+                if (!data[0].hasOwnProperty(k)) continue;
+                columns.push(k);
+            }
+        }
+        
+        for (i = 0, iMax = data.length; i < iMax; i += 1)
+        {
+            row = [];
+            for (j = 0, jMax = columns.length; j < jMax; j += 1)
+            {
+                row.push(data[i][columns[j]]);
+            }
+            
+            console.log.apply(this, row);
+        }
+    };    
 }
 
 // Dummy implementations of other console features to prevent error messages
@@ -106,7 +143,9 @@ if (!console["trace"]) console["trace"] = function() {};
 if (!console["group"]) console["group"] = function() {};
 if (!console["groupCollapsed"]) console["groupCollapsed"] = function() {};
 if (!console["groupEnd"]) console["groupEnd"] = function() {};
+if (!console["timeStamp"]) console["timeStamp"] = function() {};
 if (!console["profile"]) console["profile"] = function() {};
 if (!console["profileEnd"]) console["profileEnd"] = function() {};
+if (!console["count"]) console["count"] = function() {};
 
 })();

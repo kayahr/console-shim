@@ -46,9 +46,14 @@ feature is not supported by the browser.
   specified name.
 * **timeEnd**: Full implementation which calculates the difference between
   the current time and the recorded start time and logs it.
+* **timeStamp**: Empty dummy function.
 * **profile**: Empty dummy function.
 * **profileEnd**: Empty dummy function.
-
+* **count**: Empty dummy function.
+* **exception**: Linked to console.error. Not exactly the same but at least
+  all parameters are logged as an error message then.
+* **table**: Full implementation. Output is not really beautiful but it
+  works.
 
 License
 -------

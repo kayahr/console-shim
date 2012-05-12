@@ -224,6 +224,65 @@
         ok(true, "Must not fail");
     });
    
+
+    module("console.timeStamp");
+      
+    test("Ignored", function() {
+        console.timeStamp();
+        ok(true, "Must not fail");
+    });
+   
+    module("console.count");
+      
+    test("Ignored", function() {
+        console.count();
+        ok(true, "Must not fail");
+    });
+   
+
+    module("console.excption");
+      
+    test("Logging exception as message", function() {
+        var e = new Error("test");
+        console.exception(e, 53);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 2, "Two parameters must be logged.");
+        strictEqual(log[0], e, "Exception must match.");
+        equal(log[1], 53, "First parameter must match.");
+    });
+   
+
+    module("console.table");
+      
+    test("Auto-column", function() {
+        var a = { "name": "John", "age": 37 };
+        var b = { "name": "James", "age": 39 }; 
+        console.table([a, b]);
+        equal(logs.length, 2, "Two log messages must be logged.");
+        var log = logs.shift();
+        equal(log.length, 2, "Two parameters must be logged.");
+        equal(log[0], "John", "First value of first row must be John.");
+        equal(log[1], 37, "Second value of first row must be 37.");
+        var log = logs.shift();
+        equal(log.length, 2, "Two parameters must be logged.");
+        equal(log[0], "James", "First value of second row must be James.");
+        equal(log[1], 39, "Second value of second row must be 39.");
+    });
+   
+    test("Custom columns", function() {
+        var a = { "name": "John", "age": 37 };
+        var b = { "name": "James", "age": 39 }; 
+        console.table([a, b], ["age"]);
+        equal(logs.length, 2, "Two log messages must be logged.");
+        var log = logs.shift();
+        equal(log.length, 1, "One parameter must be logged.");
+        equal(log[0], 37, "First value of first row must be 37.");
+        var log = logs.shift();
+        equal(log.length, 1, "One parameter must be logged.");
+        equal(log[0], 39, "First value of second row must be 39.");
+    });
+
     });  
     
     </script>
