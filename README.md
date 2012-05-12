@@ -44,7 +44,7 @@ feature is not supported by the browser.
 * **groupEnd**: Empty dummy function.
 * **time**: Full implementation which records the current time under the
   specified name.
-* **timeEnd**: Full implementation which calculated the difference between
+* **timeEnd**: Full implementation which calculates the difference between
   the current time and the recorded start time and logs it.
 * **profile**: Empty dummy function.
 * **profileEnd**: Empty dummy function.
