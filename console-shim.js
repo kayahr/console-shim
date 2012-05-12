@@ -52,28 +52,25 @@ if (!console["log"])
     }
 }
 
-// Implement console.debug if missing
-if (!console["debug"])
-{
-    console.debug = console.log;
-}
+// Implement other log levels to console.log if missing
+if (!console["debug"]) console.debug = console.log;
+if (!console["info"]) console.info = console.log;
+if (!console["warn"]) console.warn = console.log;
+if (!console["error"]) console.error = console.log;
 
-// Implement console.debug if missing
-if (!console["info"])
+// Implement console.assert if missing
+if (!console["assert"])
 {
-    console.info = console.log;
-}
-
-// Implement console.debug if missing
-if (!console["warn"])
-{
-    console.warn = console.log;
-}
-
-// Implement console.debug if missing
-if (!console["error"])
-{
-    console.error = console.log;
+    console["assert"] = function()
+    {
+        var args = Array.prototype.slice.call(arguments, 0);
+        var expr = args.shift();
+        if (!expr)
+        {
+            args[0] = "Assertion failed: " + args[0];
+            console.error.apply(console, args);
+        }
+    };
 }
 
 // Dummy implementations of other console features to prevent error messages

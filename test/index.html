@@ -19,7 +19,7 @@
     
     </script>
     <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-    <script type="text/javascript" src="../console-shim-min.js"></script>
+    <script type="text/javascript" src="../console-shim.js"></script>
     <script type="text/javascript">
   
     $(function() {
@@ -29,7 +29,7 @@
     test("Only message", function() {
         console.log("abc");
         var log = logs.pop();
-        ok(!!log, "Log message recorded.");
+        ok(!!log, "Log message must be recorded.");
         equal(log.length, 1, "Only one parameter logged.");
         equal(log[0], "abc", "Message must match.");
     });
@@ -37,8 +37,8 @@
     test("Message with parameters", function() {
         console.log("def", "ghi", 3);
         var log = logs.pop();
-        ok(!!log, "Log message recorded.");
-        equal(log.length, 3, "Three parameters logged.");
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 3, "Three parameters must be logged.");
         equal(log[0], "def", "Message must match.");
         equal(log[1], "ghi", "First parameter must match.");
         equal(log[2], 3, "Second parameter must match.");
@@ -50,8 +50,8 @@
     test("Message with parameter", function() {
         console.debug("foo", "bar");
         var log = logs.pop();
-        ok(!!log, "Log message recorded.");
-        equal(log.length, 2, "Two parameters logged.");
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 2, "Two parameters must be logged.");
         equal(log[0], "foo", "Message must match.");
         equal(log[1], "bar", "Parameter must match.");
     });
@@ -62,8 +62,8 @@
     test("Message with parameter", function() {
         console.info("foo", "bar");
         var log = logs.pop();
-        ok(!!log, "Log message recorded.");
-        equal(log.length, 2, "Two parameters logged.");
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 2, "Two parameters must be logged.");
         equal(log[0], "foo", "Message must match.");
         equal(log[1], "bar", "Parameter must match.");
     });
@@ -74,8 +74,8 @@
     test("Message with parameter", function() {
         console.warn("foo", "bar");
         var log = logs.pop();
-        ok(!!log, "Log message recorded.");
-        equal(log.length, 2, "Two parameters logged.");
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 2, "Two parameters must be logged.");
         equal(log[0], "foo", "Message must match.");
         equal(log[1], "bar", "Parameter must match.");
     });
@@ -86,12 +86,29 @@
     test("Message with parameter", function() {
         console.error("foo", "bar");
         var log = logs.pop();
-        ok(!!log, "Log message recorded.");
-        equal(log.length, 2, "Two parameters logged.");
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 2, "Two parameters must be logged.");
         equal(log[0], "foo", "Message must match.");
         equal(log[1], "bar", "Parameter must match.");
     });
    
+   
+    module("console.assert");
+      
+    test("Expression is true", function() {
+        console.assert(true, "foo bar", 53);
+        equal(logs.length, 0, "No message must be recorded");
+    });
+   
+    test("Expression is false", function() {
+        console.assert(false, "foo bar", 53);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 2, "Two parameters must be logged.");
+        equal(log[0], "Assertion failed: foo bar", "Message must match.");
+        equal(log[1], 53, "Parameter must match.");
+    });
+
    
     module("console.dir");
       

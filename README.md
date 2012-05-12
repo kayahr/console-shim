@@ -31,6 +31,8 @@ feature is not supported by the browser.
 * **info**: Linked to log4javascript if possible or to the log method.
 * **warn**: Linked to log4javascript if possible or to the log method.
 * **error**: Linked to log4javascript if possible or to the log method.
+* **assert**: Full implementation which logs an error message when the assert 
+  expression is false.
 * **dir**: Empty dummy function.
 * **group**: Empty dummy function.
 * **groupEnd**: Empty dummy function.
