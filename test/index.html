@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Console shim demo</title>
+    <title>Console shim test</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
     <script type="text/javascript">
@@ -120,9 +120,23 @@
    
     module("console.dir");
       
-    test("Ignored", function() {
+    test("Logging object as message", function() {
         console.dir(window);
-        ok(true, "Must not fail");
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 1, "One parameters must be logged.");
+        strictEqual(log[0], window, "Parameter must match.");
+    });
+
+   
+    module("console.dirxml");
+      
+    test("Logging object as message", function() {
+        console.dirxml(window);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 1, "One parameters must be logged.");
+        strictEqual(log[0], window, "Parameter must match.");
     });
    
    

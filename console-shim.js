@@ -73,10 +73,14 @@ if (!console["assert"])
     };
 }
 
+// Linking console.dir and console.dirxml to the console.log method in the
+// hope that the browser already logs objects and DOM nodes as a tree.
+if (!console["dir"]) console["dir"] = console.log;
+if (!console["dirxml"]) console["dirxml"] = console.log;
+
 // Dummy implementations of other console features to prevent error messages
 // in browsers not supporting it.
 if (!console["clear"]) console["clear"] = function() {};
-if (!console["dir"]) console["dir"] = function() {};
 if (!console["group"]) console["group"] = function() {};
 if (!console["groupCollapsed"]) console["groupCollapsed"] = function() {};
 if (!console["groupEnd"]) console["groupEnd"] = function() {};
