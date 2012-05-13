@@ -17,6 +17,10 @@
         logs.push(Array.prototype.slice.call(arguments));
     };
     
+    // Set test flag (Needed so we can test browser-specific hacks in all
+    // browsers
+    __consoleShimTest__ = false;
+    
     </script>
     <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
     <script type="text/javascript" src="../console-shim-min.js"></script>
@@ -43,6 +47,19 @@
         equal(log[1], "ghi", "First parameter must match.");
         equal(log[2], 3, "Second parameter must match.");
     });
+
+    test("IE-Wrapper", function() {
+        __consoleShimTest__ = true;
+        console.log("format %s", "param", 1, 2);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 4, "Three parameters must be logged.");
+        equal(log[0], "format %s %o %o", "Message must match.");
+        equal(log[1], "param", "First parameter must match.");
+        equal(log[2], 1, "Second parameter must match.");
+        equal(log[3], 2, "Second parameter must match.");
+        __consoleShimTest__ = false;
+    });
  
  
     module("console.debug");
@@ -55,7 +72,20 @@
         equal(log[0], "foo", "Message must match.");
         equal(log[1], "bar", "Parameter must match.");
     });
-   
+
+    test("IE-Wrapper", function() {
+        __consoleShimTest__ = true;
+        console.debug("format %s", "param", 1, 2);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 4, "Three parameters must be logged.");
+        equal(log[0], "format %s %o %o", "Message must match.");
+        equal(log[1], "param", "First parameter must match.");
+        equal(log[2], 1, "Second parameter must match.");
+        equal(log[3], 2, "Second parameter must match.");
+        __consoleShimTest__ = false;
+    });
+    
 
     module("console.info");
       
@@ -68,7 +98,20 @@
         equal(log[1], "bar", "Parameter must match.");
     });
    
-   
+    test("IE-Wrapper", function() {
+        __consoleShimTest__ = true;
+        console.info("format %s", "param", 1, 2);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 4, "Three parameters must be logged.");
+        equal(log[0], "format %s %o %o", "Message must match.");
+        equal(log[1], "param", "First parameter must match.");
+        equal(log[2], 1, "Second parameter must match.");
+        equal(log[3], 2, "Second parameter must match.");
+        __consoleShimTest__ = false;
+    });
+
+    
     module("console.warn");
       
     test("Message with parameter", function() {
@@ -80,6 +123,19 @@
         equal(log[1], "bar", "Parameter must match.");
     });
    
+    test("IE-Wrapper", function() {
+        __consoleShimTest__ = true;
+        console.warn("format %s", "param", 1, 2);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 4, "Three parameters must be logged.");
+        equal(log[0], "format %s %o %o", "Message must match.");
+        equal(log[1], "param", "First parameter must match.");
+        equal(log[2], 1, "Second parameter must match.");
+        equal(log[3], 2, "Second parameter must match.");
+        __consoleShimTest__ = false;
+    });
+
    
     module("console.error");
       
@@ -92,7 +148,20 @@
         equal(log[1], "bar", "Parameter must match.");
     });
    
-   
+    test("IE-Wrapper", function() {
+        __consoleShimTest__ = true;
+        console.error("format %s", "param", 1, 2);
+        var log = logs.pop();
+        ok(!!log, "Log message must be recorded.");
+        equal(log.length, 4, "Three parameters must be logged.");
+        equal(log[0], "format %s %o %o", "Message must match.");
+        equal(log[1], "param", "First parameter must match.");
+        equal(log[2], 1, "Second parameter must match.");
+        equal(log[3], 2, "Second parameter must match.");
+        __consoleShimTest__ = false;
+    });
+
+
     module("console.assert");
       
     test("Expression is true", function() {

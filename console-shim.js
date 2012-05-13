@@ -58,6 +58,61 @@ if (!console["info"]) console.info = console.log;
 if (!console["warn"]) console.warn = console.log;
 if (!console["error"]) console.error = console.log;
 
+// Wrap the log methods in IE (<=9) because their argument handling is wrong
+// This wrapping is also done if the __consoleShimTest__ symbol is set. This
+// is needed for unit testing.
+if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @*/)
+{
+    /**
+     * Wraps the call to a real IE logging method. Modifies the arguments so
+     * parameters which are not represented by a placeholder are properly
+     * printed with a space character as separator.
+     *
+     * @param {...*} args
+     *            The function arguments. First argument is the log function
+     *            to call, the other arguments are the log arguments.
+     */
+    function wrap(args)
+    {
+        var i, max, match, log;
+        
+        // Convert argument list to real array
+        args = Array.prototype.slice.call(arguments, 0);
+        
+        // First argument is the log method to call        
+        log = args.shift();
+        
+        max = args.length;
+        if (max > 1 && window["__consoleShimTest__"] !== false)
+        {
+            // When first parameter is not a string then add a format string to 
+            // the argument list so we are able to modify it in the next stop
+            if (typeof(args[0]) != "string")
+            {
+                args.unshift("%o");
+                max += 1;
+            }
+            
+            // For each additional parameter which has no placeholder in the
+            // format string we add another placeholder separated with a
+            // space character.
+            match = args[0].match(/%[a-z]/g);
+            for (i = match ? match.length + 1 : 1; i < max; i += 1)
+            {
+                args[0] += " %o";
+            }
+        }
+        Function.apply.call(log, console, args);
+    }
+    
+    // Wrap the native log methods of IE to fix argument output problems
+    console.log = wrap.bind(window, console.log);
+    console.debug = wrap.bind(window, console.debug);
+    console.info = wrap.bind(window, console.info);
+    console.warn = wrap.bind(window, console.warn);
+    console.error = wrap.bind(window, console.error);
+}
+
 // Implement console.assert if missing
 if (!console["assert"])
 {
@@ -131,7 +186,7 @@ if (!console["table"])
                 row.push(data[i][columns[j]]);
             }
             
-            console.log.apply(this, row);
+            Function.apply.call(console.log, console, row);
         }
     };    
 }
