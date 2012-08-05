@@ -72,7 +72,7 @@ if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @
      *            The function arguments. First argument is the log function
      *            to call, the other arguments are the log arguments.
      */
-    function wrap(args)
+    var wrap = function(args)
     {
         var i, max, match, log;
         
