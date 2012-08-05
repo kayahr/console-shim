@@ -5,6 +5,8 @@
  * Licensed under the MIT license
  * (See http://www.opensource.org/licenses/mit-license)
  */
+
+'use strict';
  
 (function(){
 
@@ -72,45 +74,43 @@ if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @
      *            The function arguments. First argument is the log function
      *            to call, the other arguments are the log arguments.
      */
-    function wrap(args)
-    {
-        var i, max, match, log;
-        
-        // Convert argument list to real array
-        args = Array.prototype.slice.call(arguments, 0);
-        
-        // First argument is the log method to call        
-        log = args.shift();
-        
-        max = args.length;
-        if (max > 1 && window["__consoleShimTest__"] !== false)
-        {
-            // When first parameter is not a string then add a format string to 
-            // the argument list so we are able to modify it in the next stop
-            if (typeof(args[0]) != "string")
-            {
-                args.unshift("%o");
-                max += 1;
-            }
-            
-            // For each additional parameter which has no placeholder in the
-            // format string we add another placeholder separated with a
-            // space character.
-            match = args[0].match(/%[a-z]/g);
-            for (i = match ? match.length + 1 : 1; i < max; i += 1)
-            {
-                args[0] += " %o";
-            }
-        }
-        Function.apply.call(log, console, args);
-    }
+    var wrap = function(log){
+      return bind(function(args){
+          var i, max, match;
+          
+          // Convert argument list to real array
+          args = Array.prototype.slice.call(arguments, 0);
+          
+          max = args.length;
+          if (max > 1 && window["__consoleShimTest__"] !== false)
+          {
+              // When first parameter is not a string then add a format string to 
+              // the argument list so we are able to modify it in the next stop
+              if (typeof(args[0]) != "string")
+              {
+                  args.unshift("%o");
+                  max += 1;
+              }
+              
+              // For each additional parameter which has no placeholder in the
+              // format string we add another placeholder separated with a
+              // space character.
+              match = args[0].match(/%[a-z]/g);
+              for (i = match ? match.length + 1 : 1; i < max; i += 1)
+              {
+                  args[0] += " %o";
+              }
+          }
+          Function.apply.call(log, console, args);
+      }, window);
+    };
     
     // Wrap the native log methods of IE to fix argument output problems
-    console.log = wrap.bind(window, console.log);
-    console.debug = wrap.bind(window, console.debug);
-    console.info = wrap.bind(window, console.info);
-    console.warn = wrap.bind(window, console.warn);
-    console.error = wrap.bind(window, console.error);
+    console.log = wrap(console.log);
+    console.debug = wrap(console.debug);
+    console.info = wrap(console.info);
+    console.warn = wrap(console.warn);
+    console.error = wrap(console.error);
 }
 
 // Implement console.assert if missing
