@@ -5,6 +5,8 @@
  * Licensed under the MIT license
  * (See http://www.opensource.org/licenses/mit-license)
  */
+
+'use strict';
  
 (function(){
 
