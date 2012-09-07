@@ -6,6 +6,8 @@
  * (See http://www.opensource.org/licenses/mit-license)
  */
  
+'use strict';
+ 
 (function(){
 
 /**
@@ -16,14 +18,18 @@
  *            The function to call.
  * @param {Object} scope
  *            The scope to call the function in.
+ * @param {...*} args
+ *            Additional arguments to pass to the bound function.
  * @return {Function}
  *            The bound function.
  */
-var bind = function(func, scope)
+var bind = function(func, scope, args)
 {
+    var fixedArgs = Array.prototype.slice.call(arguments, 2);
     return function()
     {
-        (/** @type {Function} */ func).apply(scope, arguments);
+        var args = fixedArgs.concat(Array.prototype.slice.call(arguments, 0));
+        (/** @type {Function} */ func).apply(scope, args);
     };
 };
 
@@ -72,7 +78,7 @@ if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @
      *            The function arguments. First argument is the log function
      *            to call, the other arguments are the log arguments.
      */
-    function wrap(args)
+    var wrap = function(args)
     {
         var i, max, match, log;
         
@@ -106,11 +112,11 @@ if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @
     }
     
     // Wrap the native log methods of IE to fix argument output problems
-    console.log = wrap.bind(window, console.log);
-    console.debug = wrap.bind(window, console.debug);
-    console.info = wrap.bind(window, console.info);
-    console.warn = wrap.bind(window, console.warn);
-    console.error = wrap.bind(window, console.error);
+    console.log = bind(wrap, window, console.log);
+    console.debug = bind(wrap, window, console.debug);
+    console.info = bind(wrap, window, console.info);
+    console.warn = bind(wrap, window, console.warn);
+    console.error = bind(wrap, window, console.error);
 }
 
 // Implement console.assert if missing
