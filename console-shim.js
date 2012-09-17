@@ -6,9 +6,9 @@
  * (See http://www.opensource.org/licenses/mit-license)
  */
  
-'use strict';
  
 (function(){
+'use strict';
 
 /**
  * Returns a function which calls the specified function in the specified
