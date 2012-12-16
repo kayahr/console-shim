@@ -1,4 +1,4 @@
-/** 
+/**
  * @preserve console-shim 1.0.1
  * https://github.com/kayahr/console-shim
  * Copyright (C) 2011 Klaus Reimer <k@ailis.de>
@@ -43,7 +43,7 @@ if (!console["log"])
     // Use log4javascript if present
     if (window["log4javascript"])
     {
-        var log = log4javascript.getDefaultLogger(); 
+        var log = log4javascript.getDefaultLogger();
         console.log = bind(log.info, log);
         console.debug = bind(log.debug, log);
         console.info = bind(log.info, log);
@@ -86,13 +86,13 @@ if (window["__consoleShimTest__"] != null ||
         // Convert argument list to real array
         args = Array.prototype.slice.call(arguments, 0);
         
-        // First argument is the log method to call        
+        // First argument is the log method to call
         log = args.shift();
         
         max = args.length;
         if (max > 1 && window["__consoleShimTest__"] !== false)
         {
-            // When first parameter is not a string then add a format string to 
+            // When first parameter is not a string then add a format string to
             // the argument list so we are able to modify it in the next stop
             if (typeof(args[0]) != "string")
             {
@@ -195,7 +195,7 @@ if (!console["table"])
             
             Function.apply.call(console.log, console, row);
         }
-    };    
+    };
 }
 
 // Dummy implementations of other console features to prevent error messages
