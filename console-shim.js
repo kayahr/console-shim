@@ -179,8 +179,8 @@ if (!console["table"])
             columns = [];
             for (k in data[0])
             {
-                if (!data[0].hasOwnProperty(k)) continue;
-                columns.push(k);
+                if (data[0].hasOwnProperty(k))
+                    columns.push(k);
             }
         }
         
