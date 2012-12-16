@@ -1,4 +1,4 @@
-/** 
+/**
  * @preserve console-shim 1.0.1
  * https://github.com/kayahr/console-shim
  * Copyright (C) 2011 Klaus Reimer <k@ailis.de>
@@ -8,7 +8,7 @@
  
  
 (function(){
-'use strict';
+"use strict";
 
 /**
  * Returns a function which calls the specified function in the specified
@@ -20,7 +20,7 @@
  *            The scope to call the function in.
  * @param {...*} args
  *            Additional arguments to pass to the bound function.
- * @return {Function}
+ * @returns {function(...[*]): undefined}
  *            The bound function.
  */
 var bind = function(func, scope, args)
@@ -34,7 +34,7 @@ var bind = function(func, scope, args)
 };
 
 // Create console if not present
-if (!window["console"]) window.console = {};
+if (!window["console"]) window.console = /** @type {Console} */ ({});
 var console = (/** @type {Object} */ window.console);
 
 // Implement console log if needed
@@ -43,7 +43,7 @@ if (!console["log"])
     // Use log4javascript if present
     if (window["log4javascript"])
     {
-        var log = log4javascript.getDefaultLogger(); 
+        var log = log4javascript.getDefaultLogger();
         console.log = bind(log.info, log);
         console.debug = bind(log.debug, log);
         console.info = bind(log.info, log);
@@ -54,7 +54,8 @@ if (!console["log"])
     // Use empty dummy implementation to ignore logging
     else
     {
-        console.log = (/** @param {...*} args */ function(args) {});
+        /** @param {...*} args */
+        console.log = function(args) {};
     }
 }
 
@@ -67,7 +68,8 @@ if (!console["error"]) console.error = console.log;
 // Wrap the log methods in IE (<=9) because their argument handling is wrong
 // This wrapping is also done if the __consoleShimTest__ symbol is set. This
 // is needed for unit testing.
-if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @*/)
+var cl = eval("/*@cc_on @_jscript_version <= 9@*/");
+if (window["__consoleShimTest__"] !== undefined || cl)
 {
     /**
      * Wraps the call to a real IE logging method. Modifies the arguments so
@@ -85,13 +87,13 @@ if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @
         // Convert argument list to real array
         args = Array.prototype.slice.call(arguments, 0);
         
-        // First argument is the log method to call        
+        // First argument is the log method to call
         log = args.shift();
         
         max = args.length;
         if (max > 1 && window["__consoleShimTest__"] !== false)
         {
-            // When first parameter is not a string then add a format string to 
+            // When first parameter is not a string then add a format string to
             // the argument list so we are able to modify it in the next stop
             if (typeof(args[0]) != "string")
             {
@@ -109,7 +111,7 @@ if ((window["__consoleShimTest__"] != null) /*@cc_on || @_jscript_version <= 9 @
             }
         }
         Function.apply.call(log, console, args);
-    }
+    };
     
     // Wrap the native log methods of IE to fix argument output problems
     console.log = bind(wrap, window, console.log);
@@ -179,8 +181,8 @@ if (!console["table"])
             columns = [];
             for (k in data[0])
             {
-                if (!data[0].hasOwnProperty(k)) continue;
-                columns.push(k);
+                if (data[0].hasOwnProperty(k))
+                    columns.push(k);
             }
         }
         
@@ -194,7 +196,7 @@ if (!console["table"])
             
             Function.apply.call(console.log, console, row);
         }
-    };    
+    };
 }
 
 // Dummy implementations of other console features to prevent error messages
