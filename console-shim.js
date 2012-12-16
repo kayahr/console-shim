@@ -8,7 +8,7 @@
  
  
 (function(){
-'use strict';
+"use strict";
 
 /**
  * Returns a function which calls the specified function in the specified
