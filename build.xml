@@ -9,6 +9,7 @@
   <target name="compile">
     <delete file="console-shim-min.js" />
     <jscomp compilationLevel="advanced"
+            languageIn="ECMASCRIPT5_STRICT"
             warning="verbose"
             debug="false"
             output="console-shim-min.js">
