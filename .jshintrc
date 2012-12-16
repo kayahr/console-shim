@@ -1,0 +1,54 @@
+{
+
+  // Enforce camelCasing of props names
+  "camelcase": true,
+  // Warn about enumerations without hasOwnProperty calls
+  "forin": true,
+  // Enforce the use of parentheses around immediate function calls
+  "immed": true,
+  // Warn about late definition of local variables
+  "latedef": true,
+  // Requires capitalization of constructors
+  "newcap": true,
+  // Disallow callee on args - be ECMA strict ready
+  "noarg": true,
+  // Warn about empty blocks
+  "noempty": true,
+  // Warn about constructors missing a "new"
+  "nonew": true,
+  // String quoting style
+  "quotmark": "double",
+  // Warn about unsafe use of regexp
+  "regexp": true,
+  // Prohibit use of undeclared variables
+  "undef": true,
+  // Use strict
+  "strict": true,
+  // Prohibit trailing whitespaces
+  "trailing": true,
+  // Maximum number of parameters in a function
+  "maxparams": 3,
+  // Maximum depth
+  "maxdepth": 3,
+  // Maximum number of statements in a block
+  "maxstatements": 45,
+  // Maximum function complexity
+  "maxcomplexity": 25,
+  // Maximum line length
+  "maxlen": 100,
+
+  // XXX may fix
+  // Warn about unused variables
+  // Can't enforce right now, because jscomp requires (unused) function parameters to be explicitely present
+  "unused": false,
+  // Better use dot notation instead
+  "sub": true,
+  // Due to the fact closure compiler removes comment, we can't use conditional compilation directly, hence the eval
+  "evil": true,
+
+  // Globals
+  "globals": {
+    "log4javascript": false,
+    "window": false
+  }
+}
