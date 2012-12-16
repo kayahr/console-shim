@@ -20,7 +20,7 @@
  *            The scope to call the function in.
  * @param {...*} args
  *            Additional arguments to pass to the bound function.
- * @return {Function}
+ * @returns {function(...[*]): undefined}
  *            The bound function.
  */
 var bind = function(func, scope, args)
@@ -34,7 +34,7 @@ var bind = function(func, scope, args)
 };
 
 // Create console if not present
-if (!window["console"]) window.console = {};
+if (!window["console"]) window.console = /** @type {Console} */ ({});
 var console = (/** @type {Object} */ window.console);
 
 // Implement console log if needed
