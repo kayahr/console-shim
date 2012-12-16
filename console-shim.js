@@ -110,7 +110,7 @@ if (window["__consoleShimTest__"] != null ||
             }
         }
         Function.apply.call(log, console, args);
-    }
+    };
     
     // Wrap the native log methods of IE to fix argument output problems
     console.log = bind(wrap, window, console.log);
