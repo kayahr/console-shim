@@ -68,7 +68,8 @@ if (!console["error"]) console.error = console.log;
 // Wrap the log methods in IE (<=9) because their argument handling is wrong
 // This wrapping is also done if the __consoleShimTest__ symbol is set. This
 // is needed for unit testing.
-if ((window["__consoleShimTest__"] !== undefined) /*@cc_on || @_jscript_version <= 9 @*/)
+var cl = eval("/*@cc_on @_jscript_version <= 9@*/");
+if (window["__consoleShimTest__"] !== undefined || cl)
 {
     /**
      * Wraps the call to a real IE logging method. Modifies the arguments so
