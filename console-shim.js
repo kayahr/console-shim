@@ -23,7 +23,7 @@
  * @return {Function}
  *            The bound function.
  */
-var bind = function(func, scope/*, args*/)
+var bind = function(func, scope, args)
 {
     var fixedArgs = Array.prototype.slice.call(arguments, 2);
     return function()
@@ -55,7 +55,7 @@ if (!console["log"])
     else
     {
         /** @param {...*} args */
-        console.log = function(/*args*/) {};
+        console.log = function(args) {};
     }
 }
 
