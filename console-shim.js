@@ -7,7 +7,7 @@
  */
  
  
-(function(){
+(function(global){
 "use strict";
 
 /**
@@ -34,40 +34,40 @@ var bind = function(func, scope, args)
 };
 
 // Create console if not present
-if (!window["console"]) window.console = /** @type {Console} */ ({});
-var console = (/** @type {Object} */ window.console);
+if (!global["console"]) global.console = /** @type {Console} */ ({});
+//var console = (/** @type {Object} */ window.console);
 
 // Implement console log if needed
-if (!console["log"])
+if (!global.console["log"])
 {
     // Use log4javascript if present
-    if (window["log4javascript"])
+    if (global["log4javascript"])
     {
         var log = log4javascript.getDefaultLogger();
-        console.log = bind(log.info, log);
-        console.debug = bind(log.debug, log);
-        console.info = bind(log.info, log);
-        console.warn = bind(log.warn, log);
-        console.error = bind(log.error, log);
+        global.console.log = bind(log.info, log);
+        global.console.debug = bind(log.debug, log);
+        global.console.info = bind(log.info, log);
+        global.console.warn = bind(log.warn, log);
+        global.console.error = bind(log.error, log);
     }
     
     // Use empty dummy implementation to ignore logging
     else
     {
-        console.log = (/** @param {...*} args */ function(args) {});
+        global.console.log = (/** @param {...*} args */ function(args) {});
     }
 }
 
 // Implement other log levels to console.log if missing
-if (!console["debug"]) console.debug = console.log;
-if (!console["info"]) console.info = console.log;
-if (!console["warn"]) console.warn = console.log;
-if (!console["error"]) console.error = console.log;
+if (!global.console["debug"]) global.console.debug = global.console.log;
+if (!global.console["info"]) global.console.info = global.console.log;
+if (!global.console["warn"]) global.console.warn = global.console.log;
+if (!global.console["error"]) global.console.error = global.console.log;
 
 // Wrap the log methods in IE (<=9) because their argument handling is wrong
 // This wrapping is also done if the __consoleShimTest__ symbol is set. This
 // is needed for unit testing.
-if (window["__consoleShimTest__"] != null || 
+if (global["__consoleShimTest__"] != null || 
     eval("/*@cc_on @_jscript_version <= 9@*/"))
 {
     /**
@@ -90,7 +90,7 @@ if (window["__consoleShimTest__"] != null ||
         log = args.shift();
         
         max = args.length;
-        if (max > 1 && window["__consoleShimTest__"] !== false)
+        if (max > 1 && global["__consoleShimTest__"] !== false)
         {
             // When first parameter is not a string then add a format string to
             // the argument list so we are able to modify it in the next stop
@@ -109,28 +109,28 @@ if (window["__consoleShimTest__"] != null ||
                 args[0] += " %o";
             }
         }
-        Function.apply.call(log, console, args);
+        Function.apply.call(log, global.console, args);
     };
     
     // Wrap the native log methods of IE to fix argument output problems
-    console.log = bind(wrap, window, console.log);
-    console.debug = bind(wrap, window, console.debug);
-    console.info = bind(wrap, window, console.info);
-    console.warn = bind(wrap, window, console.warn);
-    console.error = bind(wrap, window, console.error);
+    global.console.log = bind(wrap, global, global.console.log);
+    global.console.debug = bind(wrap, global, global.console.debug);
+    global.console.info = bind(wrap, global, global.console.info);
+    global.console.warn = bind(wrap, global, global.console.warn);
+    global.console.error = bind(wrap, global, global.console.error);
 }
 
 // Implement console.assert if missing
-if (!console["assert"])
+if (!global.console["assert"])
 {
-    console["assert"] = function()
+    global.console["assert"] = function()
     {
         var args = Array.prototype.slice.call(arguments, 0);
         var expr = args.shift();
         if (!expr)
         {
             args[0] = "Assertion failed: " + args[0];
-            console.error.apply(console, args);
+            global.console.error.apply(global.console, args);
         }
     };
 }
@@ -138,36 +138,36 @@ if (!console["assert"])
 // Linking console.dir and console.dirxml to the console.log method if
 // missing. Hopefully the browser already logs objects and DOM nodes as a
 // tree.
-if (!console["dir"]) console["dir"] = console.log;
-if (!console["dirxml"]) console["dirxml"] = console.log;
+if (!global.console["dir"]) global.console["dir"] = global.console.log;
+if (!global.console["dirxml"]) global.console["dirxml"] = global.console.log;
 
 // Linking console.exception to console.error. This is not the same but
 // at least some error message is displayed.
-if (!console["exception"]) console["exception"] = console.error;
+if (!global.console["exception"]) global.console["exception"] = global.console.error;
 
 // Implement console.time and console.timeEnd if one of them is missing
-if (!console["time"] || !console["timeEnd"])
+if (!global.console["time"] || !global.console["timeEnd"])
 {
     var timers = {};
-    console["time"] = function(id)
+    global.console["time"] = function(id)
     {
         timers[id] = new Date().getTime();
     };
-    console["timeEnd"] = function(id)
+    global.console["timeEnd"] = function(id)
     {
         var start = timers[id];
         if (start)
         {
-            console.log(id + ": " + (new Date().getTime() - start) + "ms");
+            global.console.log(id + ": " + (new Date().getTime() - start) + "ms");
             delete timers[id];
         }
     };
 }
 
 // Implement console.table if missing
-if (!console["table"])
+if (!global.console["table"])
 {
-    console["table"] = function(data, columns)
+    global.console["table"] = function(data, columns)
     {
         var i, iMax, row, j, jMax, k;
         
@@ -193,21 +193,21 @@ if (!console["table"])
                 row.push(data[i][columns[j]]);
             }
             
-            Function.apply.call(console.log, console, row);
+            Function.apply.call(global.console.log, global.console, row);
         }
     };
 }
 
 // Dummy implementations of other console features to prevent error messages
 // in browsers not supporting it.
-if (!console["clear"]) console["clear"] = function() {};
-if (!console["trace"]) console["trace"] = function() {};
-if (!console["group"]) console["group"] = function() {};
-if (!console["groupCollapsed"]) console["groupCollapsed"] = function() {};
-if (!console["groupEnd"]) console["groupEnd"] = function() {};
-if (!console["timeStamp"]) console["timeStamp"] = function() {};
-if (!console["profile"]) console["profile"] = function() {};
-if (!console["profileEnd"]) console["profileEnd"] = function() {};
-if (!console["count"]) console["count"] = function() {};
+if (!global.console["clear"]) global.console["clear"] = function() {};
+if (!global.console["trace"]) global.console["trace"] = function() {};
+if (!global.console["group"]) global.console["group"] = function() {};
+if (!global.console["groupCollapsed"]) global.console["groupCollapsed"] = function() {};
+if (!global.console["groupEnd"]) global.console["groupEnd"] = function() {};
+if (!global.console["timeStamp"]) global.console["timeStamp"] = function() {};
+if (!global.console["profile"]) global.console["profile"] = function() {};
+if (!global.console["profileEnd"]) global.console["profileEnd"] = function() {};
+if (!global.console["count"]) global.console["count"] = function() {};
 
-})();
+})(window);
