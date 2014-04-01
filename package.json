@@ -7,7 +7,7 @@
     "bugs": "https://github.com/kayahr/console-shim/issues",
     "license": "MIT",
     "author": "Klaus Reimer <k@ailis.de> (http://ailis.de/~k)",
-    "main": "console-shim-min.js",
+    "main": "console-shim.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/kayahr/console-shim.git"
