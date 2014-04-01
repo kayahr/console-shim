@@ -1,5 +1,5 @@
 /**
- * @preserve console-shim 1.0.2
+ * @preserve console-shim 1.0.3
  * https://github.com/kayahr/console-shim
  * Copyright (C) 2011 Klaus Reimer <k@ailis.de>
  * Licensed under the MIT license
