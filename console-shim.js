@@ -37,6 +37,9 @@ var bind = function(func, scope, args)
 if (!window["console"]) window.console = /** @type {Console} */ ({});
 var console = (/** @type {Object} */ window.console);
 
+// Save start keys because newly added functions should be enumerable.
+var consoleStartKeys = Object.keys(console);
+
 // Implement console log if needed
 if (!console["log"])
 {
@@ -209,5 +212,22 @@ if (!console["timeStamp"]) console["timeStamp"] = function() {};
 if (!console["profile"]) console["profile"] = function() {};
 if (!console["profileEnd"]) console["profileEnd"] = function() {};
 if (!console["count"]) console["count"] = function() {};
+
+// Make window.console enumerable in older browsers; like FF < 49
+if (consoleStartKeys.length === 0)
+{
+    var logFunctions = ['log', 'debug', 'info', 'warn', 'error', 'assert', 'clear', 'dir', 'dirxml', 'trace', 'group', 'groupCollapsed', 'groupEnd', 'time', 'timeEnd', 'timeStamp', 'profile', 'profileEnd', 'count', 'exception', 'table'];
+    try
+    {
+            for (var i = 0; i < logFunctions.length; i++)
+            {
+                    Object.defineProperty(console, logFunctions[i], {enumerable: true, value: console[logFunctions[i]]});
+            }
+    }
+    catch (e)
+    {
+            console.warn('Failed to make console enumerable'); // continue on first error of defineProperty
+    }
+}
 
 })();
